@@ -32,8 +32,8 @@ import java.util.logging.Logger;
 /**
  *
  * @author Javier García Escobedo (javiergarbedo.es)
- * @version 0.0.1
- * @date 2014-02-25
+ * @version 0.1.0
+ * @date 2014-02-26
  */
 public class AddressBookDBManagerMySQL {
 
@@ -57,6 +57,14 @@ public class AddressBookDBManagerMySQL {
                 createTables();
             }
             Logger.getLogger(AddressBookDBManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static boolean isConnected() {
+        if(connection!=null) {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -19,8 +19,8 @@ package es.javiergarbedo.addressbook;
 
 import es.javiergarbedo.addressbook.db.AddressBookDBManagerMySQL;
 import es.javiergarbedo.addressbook.beans.Person;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author Javier García Escobedo (javiergarbedo.es)
- * @version 0.0.2
+ * @version 0.1.0
  * @date 2014-02-26
  */
 @WebServlet(name = "Main", urlPatterns = {"/Main"})
@@ -72,69 +72,77 @@ public class Main extends HttpServlet {
 
         //Conexión con la base de datos
         AddressBookDBManagerMySQL.connect(dbServer, dbName, dbUser, dbPassword);
-
-        String action = request.getParameter("action");
-        logger.fine("action = " + action);
-        if (action != null && !action.isEmpty()) {
-            //Se ha llamado a Main tras pulsar el enlace de Editar en la lista
-            if (action.equals(ACTION_EDIT_REQUEST)) {
-                //Obtener el id de la persona a partir del parámetro is que se
-                //  ha debido utilizar al realizar la llamada a esta página Main
-                int id = Integer.valueOf(request.getParameter("id"));
-                //Lee de la BD los datos de la persona con el id solicitado
-                Person person = AddressBookDBManagerMySQL.getPersonByID(id);
-                //Se prepara el objeto Person generado para pasarlo a otra página
-                request.setAttribute("person", person);
-                //Se redirige a otra página que muestra el detalle de la persona,
-                //  pasando en request la persona
-                redirectTo("person_detail.jsp", request, response);
-            //Se ha llamado a Main tras pulsar el botón Guardar en la página de 
-            //  detalle cuando se estaba editando una persona existente
-            } else if (action.equals(ACTION_EDIT_RESPONSE)) {
-                int id = Integer.valueOf(request.getParameter("id"));
-                Person person = AddressBookDBManagerMySQL.getPersonByID(id);
-                //Se modifican los datos que había en la BD, asignado los datos
-                //  que se han introducido en la página de detalle. Esos datos
-                //  se reciben como parámetros de la llamada (request) a esta página Main 
-                updatePersonWithRequestData(person, request);
-                //Se actualiza en la BD la persona
-                AddressBookDBManagerMySQL.updatePerson(person);
-                //Volvemos a recargar la página Main con lista (no se indica 
-                //  ninguna acción si se quiere mostrar la lista)
-                response.sendRedirect("Main?action=");
-            //Se ha llamado a Main tras pulsar el botón Insertar
-            } else if (action.equals(ACTION_INSERT_REQUEST)) {
-                Person person = new Person();
-                request.setAttribute("person", person);
-                redirectTo("person_detail.jsp", request, response);
-            //Se ha llamado a Main tras pulsar el botón Guardar en la página de 
-            //  detalle cuando se estaba insertando una nueva persona
-            } else if (action.equals(ACTION_INSERT_RESPONSE)) {
-                Person person = new Person();
-                updatePersonWithRequestData(person, request);
-                AddressBookDBManagerMySQL.insertPerson(person);
-                response.sendRedirect("Main?action=");
-            //Se ha llamado a Main tras pulsar el enlace de Eliminar en la lista
-            } else if (action.equals(ACTION_DELETE)) {
-                String id = request.getParameter("id");
-                //Se borra de la BD la persona con el ID indicado
-                AddressBookDBManagerMySQL.deletePersonById(id);
-                response.sendRedirect("Main?action=");
-            //Se ha llamado a Main tras pulsar el botón Exportar XML
-            } else if (action.equals(ACTION_EXPORT_XML)) {
-                //Se obtiene desde la BD una lista con todas las personas
+        
+        //Comprueba si se ha podido realizar la conexión
+        if(AddressBookDBManagerMySQL.isConnected()) {
+            String action = request.getParameter("action");
+            logger.fine("action = " + action);
+            if (action != null && !action.isEmpty()) {
+                //Se ha llamado a Main tras pulsar el enlace de Editar en la lista
+                if (action.equals(ACTION_EDIT_REQUEST)) {
+                    //Obtener el id de la persona a partir del parámetro is que se
+                    //  ha debido utilizar al realizar la llamada a esta página Main
+                    int id = Integer.valueOf(request.getParameter("id"));
+                    //Lee de la BD los datos de la persona con el id solicitado
+                    Person person = AddressBookDBManagerMySQL.getPersonByID(id);
+                    //Se prepara el objeto Person generado para pasarlo a otra página
+                    request.setAttribute("person", person);
+                    //Se redirige a otra página que muestra el detalle de la persona,
+                    //  pasando en request la persona
+                    redirectTo("person_detail.jsp", request, response);
+                //Se ha llamado a Main tras pulsar el botón Guardar en la página de 
+                //  detalle cuando se estaba editando una persona existente
+                } else if (action.equals(ACTION_EDIT_RESPONSE)) {
+                    int id = Integer.valueOf(request.getParameter("id"));
+                    Person person = AddressBookDBManagerMySQL.getPersonByID(id);
+                    //Se modifican los datos que había en la BD, asignado los datos
+                    //  que se han introducido en la página de detalle. Esos datos
+                    //  se reciben como parámetros de la llamada (request) a esta página Main 
+                    updatePersonWithRequestData(person, request);
+                    //Se actualiza en la BD la persona
+                    AddressBookDBManagerMySQL.updatePerson(person);
+                    //Volvemos a recargar la página Main con lista (no se indica 
+                    //  ninguna acción si se quiere mostrar la lista)
+                    response.sendRedirect("Main?action=");
+                //Se ha llamado a Main tras pulsar el botón Insertar
+                } else if (action.equals(ACTION_INSERT_REQUEST)) {
+                    Person person = new Person();
+                    request.setAttribute("person", person);
+                    redirectTo("person_detail.jsp", request, response);
+                //Se ha llamado a Main tras pulsar el botón Guardar en la página de 
+                //  detalle cuando se estaba insertando una nueva persona
+                } else if (action.equals(ACTION_INSERT_RESPONSE)) {
+                    Person person = new Person();
+                    updatePersonWithRequestData(person, request);
+                    AddressBookDBManagerMySQL.insertPerson(person);
+                    response.sendRedirect("Main?action=");
+                //Se ha llamado a Main tras pulsar el enlace de Eliminar en la lista
+                } else if (action.equals(ACTION_DELETE)) {
+                    String id = request.getParameter("id");
+                    //Se borra de la BD la persona con el ID indicado
+                    AddressBookDBManagerMySQL.deletePersonById(id);
+                    response.sendRedirect("Main?action=");
+                //Se ha llamado a Main tras pulsar el botón Exportar XML
+                } else if (action.equals(ACTION_EXPORT_XML)) {
+                    //Se obtiene desde la BD una lista con todas las personas
+                    ArrayList<Person> personsList = AddressBookDBManagerMySQL.getPersonsList();
+                    //Se prepara la lista obtenida para pasarla a otra página
+                    request.setAttribute("personsList", personsList);
+                    //Se redirige a otra página que genera el XML pasando en request 
+                    //  la lista de personas
+                    redirectTo("export_xml.jsp", request, response);
+                }
+            //Si no se indica ninguna acción se entiende que se quiere mostrar la lista
+            } else {            
                 ArrayList<Person> personsList = AddressBookDBManagerMySQL.getPersonsList();
-                //Se prepara la lista obtenida para pasarla a otra página
                 request.setAttribute("personsList", personsList);
-                //Se redirige a otra página que genera el XML pasando en request 
-                //  la lista de personas
-                redirectTo("export_xml.jsp", request, response);
+                redirectTo("person_list.jsp", request, response);
             }
-        //Si no se indica ninguna acción se entiende que se quiere mostrar la lista
-        } else {            
-            ArrayList<Person> personsList = AddressBookDBManagerMySQL.getPersonsList();
-            request.setAttribute("personsList", personsList);
-            redirectTo("person_list.jsp", request, response);
+        } else { //No se ha podido hacer la conexión con la BD
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();   
+            out.println("Error: No se ha podido conectar con la BD.<br>");
+            out.println("Compruebe la configuración en el archivo 'config.properties'");
         }
     }
 
