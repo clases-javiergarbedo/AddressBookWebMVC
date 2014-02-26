@@ -26,10 +26,14 @@
                 out.println("<td>"+person.getEmail()+"</td>");
                 out.println("<td>"+person.getPhoneNumber()+"</td>");
                 out.println("<td>"+person.getMobileNumber()+"</td>");
+                //Enlace para editar el registro
                 String editLink = "Main?action=E&id="+person.getId();
                 out.println("<td><a href='"+editLink+"'>Editar</td>");
+                //Enlace para eliminar el registro con confirmación por parte del usuario
                 String deleteLink = "Main?action=D&id="+person.getId();
-                out.println("<td><a href='"+deleteLink+"'>Suprimir</td>");
+                String deleteConfirmText = "Confirme que desea eliminar el contacto:\\n"+person.getName()+" "+person.getSurnames();
+                out.println("<td><a href='"+deleteLink+"' onCLick='return confirm(\""+deleteConfirmText+"\")'>Suprimir</td>");
+                
                 out.println("</tr>");
             }
         %>
