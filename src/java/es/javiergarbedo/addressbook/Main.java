@@ -19,11 +19,13 @@ package es.javiergarbedo.addressbook;
 
 import es.javiergarbedo.addressbook.db.AddressBookDBManagerMySQL;
 import es.javiergarbedo.addressbook.beans.Person;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -36,8 +38,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author Javier García Escobedo (javiergarbedo.es)
- * @version 0.0.1
- * @date 2014-02-25
+ * @version 0.0.2
+ * @date 2014-02-26
  */
 @WebServlet(name = "Main", urlPatterns = {"/Main"})
 public class Main extends HttpServlet {
@@ -59,8 +61,17 @@ public class Main extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        //Obtener los datos de conexión a la BD desde un archivo de propiedades
+        Properties properties = new Properties();
+        properties.load(getServletContext().getResourceAsStream("/WEB-INF/config.properties"));
+        String dbServer = properties.getProperty("db_server");
+        String dbName = properties.getProperty("db_name");
+        String dbUser = properties.getProperty("db_user");
+        String dbPassword = properties.getProperty("db_password");
 
-        AddressBookDBManagerMySQL.connect("localhost", "address_book", "root", "root");
+        //Conexión con la base de datos
+        AddressBookDBManagerMySQL.connect(dbServer, dbName, dbUser, dbPassword);
 
         String action = request.getParameter("action");
         logger.fine("action = " + action);
