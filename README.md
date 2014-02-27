@@ -1,5 +1,7 @@
 Changelog
 =========
+v0.1.0   
+-Permite asignar y eliminar la foto del contacto   
 v0.0.4  
 -Muestra un mensaje informativo si no se ha podido conectar con la base de datos  
 v0.0.3  
