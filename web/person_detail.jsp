@@ -17,7 +17,9 @@
     </head>
     <body>
         <h1>Datos del contacto</h1>
-        <form method="post" action="Main">
+        <!-- Se añade enctype="multipart/form-data" para la subida de archivos -->
+        <form method="post" action="Main" enctype="multipart/form-data">
+        <!--<form method="post" action="Main">-->
             <input type="hidden" name="id" value="<%=person.getId()%>">
             Nombre: <input type="text" name="name" value="<%=person.getName()%>"><br>
             Apellidos: <input type="text" name="surnames" value="<%=person.getSurnames()%>"><br>
@@ -40,8 +42,12 @@
             %>
             Fecha nacimiento: <input type="text" name="birth_date" value="<%=strBirthDate%>"><br>
             Observaciones: <input type="text" name="comments" value="<%=person.getComments()%>"><br>
-            Foto: <input type="text" name="photo_file_name" value="<%=person.getPhotoFileName()%>"><br>
-            <%
+            
+            Foto:<br><img src='<%=Main.SAVE_DIR+"/"+person.getPhotoFileName()%>' width="128px">
+            <input type="checkbox" name="deletePhoto">Borrar foto (tendrá efecto después de guardar)<br>
+            <input type="file" name="photoFileName"><br><br>
+            
+            <%  //Botón guardar para editar o insertar
                 if(action.equals(Main.ACTION_EDIT_REQUEST)) {
                     out.print("<input type='submit' value='Guardar'>");
                     out.print("<input type='hidden' name='action' value='"+Main.ACTION_EDIT_RESPONSE+"'>");
@@ -50,9 +56,11 @@
                     out.print("<input type='hidden' name='action' value='"+Main.ACTION_INSERT_RESPONSE+"'>");
                 }
             %>
-            <%-- Para que se muestre de nuevo la lista no hay que indicar 
-                ninguna acción y volver a cargar Main --%>
         </form>
+        
+        <%-- Botón para Cancelar cambios.
+            Para que se muestre de nuevo la lista no hay que indicar 
+            ninguna acción y volver a cargar Main --%>
         <form method="post" action="Main">
             <input type="hidden" name="action" value="">
             <input type="submit" value="Cancelar">
