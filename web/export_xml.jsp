@@ -7,7 +7,7 @@
 <%-- Se informa que el contenido va a ser XML --%>
 <%@page contentType="text/xml" pageEncoding="UTF-8"%>
 
-<address_book>
+<persons>
 <% 
     ArrayList<Person> personsList = (ArrayList)request.getAttribute("personsList"); 
     for(Person person: personsList) {
@@ -30,4 +30,4 @@
         out.println("</person>");
     }
 %>
-</address_book>
+</persons>

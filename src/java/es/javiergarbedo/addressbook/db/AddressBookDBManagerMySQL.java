@@ -54,7 +54,12 @@ public class AddressBookDBManagerMySQL {
                 createDatabase(databaseServer, databaseName, databaseUser, databasePassword);
                 Logger.getLogger(AddressBookDBManagerMySQL.class.getName()).log(Level.FINE,
                         "Database created");
-                createTables();
+                try {
+                    connection = DriverManager.getConnection(strConection, databaseUser, databasePassword);
+                    createTables();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(AddressBookDBManagerMySQL.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
             Logger.getLogger(AddressBookDBManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
         }

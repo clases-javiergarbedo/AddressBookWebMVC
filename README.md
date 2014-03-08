@@ -1,5 +1,8 @@
 Changelog
 =========
+v0.1.1   
+-Arreglado problema de acceso y creación de las tablas cuando se crea la base de datos en el promer acceso   
+-Cambiada la dirección del servidor MySQL a 192.168.200.101
 v0.1.0   
 -Permite asignar y eliminar la foto del contacto   
 v0.0.4  
