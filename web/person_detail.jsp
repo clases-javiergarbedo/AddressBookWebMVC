@@ -1,5 +1,5 @@
-<%@page import="es.javiergarbedo.addressbook.beans.Person"%>
-<%@page import="es.javiergarbedo.addressbook.Main"%>
+<%@page import="es.javiergarciaescobedo.addressbookmvc.Person"%>
+<%@page import="es.javiergarciaescobedo.addressbookmvc.Main"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
