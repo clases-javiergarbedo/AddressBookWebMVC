@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Javier García Escobedo (javiergarbedo.es)
+ * Copyright (C) 2014 Javier García Escobedo (javiergarciaescobedo.es)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.javiergarbedo.addressbook.beans;
+package es.javiergarciaescobedo.addressbookmvc;
 
 import java.util.Date;
-
-/**
- * 
- * @author Javier García Escobedo (javiergarbedo.es)
- * @version 0.0.1
- * @date 2014-02-24
- */
 
 public class Person {
     private int id;

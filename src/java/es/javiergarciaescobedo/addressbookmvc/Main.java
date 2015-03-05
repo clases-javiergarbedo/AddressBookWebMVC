@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Javier García Escobedo (javiergarbedo.es)
+ * Copyright (C) 2014 Javier García Escobedo (javiergarciaescobedo.es)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package es.javiergarbedo.addressbook;
 
-import es.javiergarbedo.addressbook.db.AddressBookDBManagerMySQL;
-import es.javiergarbedo.addressbook.beans.Person;
+package es.javiergarciaescobedo.addressbookmvc;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,12 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.digest.DigestUtils;
 
-/**
- *
- * @author Javier García Escobedo (javiergarbedo.es)
- * @version 0.2.0
- * @date 2014-02-27
- */
+
 @WebServlet(name = "Main", urlPatterns = {"/Main"})
 //Anotación requerida para la subida de archivos usando enctype="multipart/form-data"
 @MultipartConfig

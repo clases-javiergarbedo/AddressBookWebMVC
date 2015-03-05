@@ -2,7 +2,7 @@
 <%-- La línea anterior debe ir siempre la primera si se genera un XML --%>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="es.javiergarbedo.addressbook.beans.Person"%>
+<%@page import="es.javiergarciaescobedo.addressbookmvc.Person"%>
 
 <%-- Se informa que el contenido va a ser XML --%>
 <%@page contentType="text/xml" pageEncoding="UTF-8"%>
