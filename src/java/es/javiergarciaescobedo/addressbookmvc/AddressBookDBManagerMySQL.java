@@ -36,6 +36,8 @@ import java.util.logging.Logger;
  */
 public class AddressBookDBManagerMySQL {
 
+    private static final Logger LOG = Logger.getLogger(AddressBookDBManagerMySQL.class.getName());
+
     private static Connection connection;
 
     public static void connect(String databaseServer, String databaseName, String databaseUser, String databasePassword) {
@@ -284,4 +286,15 @@ public class AddressBookDBManagerMySQL {
         }
     }
 
+    public static void deleteAllPersons() {
+        try {
+            String sql = "DELETE FROM person";
+            Statement statement = connection.createStatement();
+            LOG.fine("Executing SQL statement: " + sql);
+            boolean result = statement.execute(sql);
+            LOG.fine("SQL result: " + result);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddressBookDBManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
